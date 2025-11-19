@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import Logo from '../assets/logo.png'
+import { assets } from '../assets/assets'
 import { FiMenu, FiX, FiChevronDown, FiBell, FiUser } from 'react-icons/fi'
 
 const Navbar = () => {
@@ -31,7 +32,7 @@ const Navbar = () => {
           onClick={() => navigate('/')}
         >
           <img
-            src={Logo}
+            src={assets.new_logo}
             alt="Logo"
             className="w-32 sm:w-36 hover:opacity-80 transition-opacity"
           />
