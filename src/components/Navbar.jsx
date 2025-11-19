@@ -146,7 +146,9 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-
+<div>
+  
+</div>
       {/* Mobile Menu Backdrop */}
       <div
         className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity ${
@@ -163,7 +165,7 @@ const Navbar = () => {
       >
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2">
-            <img src={Logo} alt="Logo" className="w-28" />
+            <img src={assets.new_logo} alt="Logo" className="w-28" />
           </div>
           <button onClick={() => setShowMenu(false)}>
             <FiX className="w-6 h-6 text-[#2C3333]" />
@@ -172,7 +174,7 @@ const Navbar = () => {
 
         {/* Mobile user section */}
         {token && userData ? (
-          <div className="mb-6 flex items-center gap-3 p-3 rounded-2xl bg-[#E9F5DB] border border-[#CDE4D4]">
+          <div className="mb-6 flex items-center gap-3 p-3 rounded-2xl bg-[#F9FAFB] border border-[#CDE4D4]">
             {userData.image ? (
               <img
                 src={userData.image}

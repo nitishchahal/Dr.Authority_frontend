@@ -2,6 +2,71 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import { FaUserMd, FaStar } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+}
+
+const leftVariants = {
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+}
+
+const rightVariants = {
+  hidden: { opacity: 0, x: 30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
+  },
+}
+
+const dividerVariants = {
+  hidden: { opacity: 0, scaleX: 0.6 },
+  visible: {
+    opacity: 1,
+    scaleX: 1,
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.15 },
+  },
+}
+
+const cardsParent = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' },
+  },
+}
+
+const ctaVariant = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: 'easeOut', delay: 0.2 },
+  },
+}
 
 const TopDoctors = () => {
   const navigate = useNavigate()
@@ -10,16 +75,26 @@ const TopDoctors = () => {
   const topDoctors = doctors.slice(0, 10)
 
   return (
-    <section className="relative my-20 mx-4 md:mx-10 rounded-3xl py-14 md:py-16 bg-[#F9FAFB] text-[#2C3333] overflow-hidden shadow-lg border border-[#CDE4D440]">
+    <motion.section
+      className="relative my-20 mx-4 md:mx-10 rounded-3xl py-14 md:py-16 bg-[#F9FAFB] text-[#2C3333] overflow-hidden shadow-lg border border-[#CDE4D440]"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.25 }}
+    >
       {/* Floating Gradient Decor */}
-      <div className="pointer-events-none absolute -top-20 -left-10 w-72 h-72 bg-[#CDE4D4] opacity-40 blur-3xl animate-pulse-slow"></div>
-      <div className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 bg-[#94B49F] opacity-30 blur-3xl animate-pulse-slow"></div>
+      <div className="pointer-events-none absolute -top-20 -left-10 w-64 sm:w-72 h-64 sm:h-72 bg-[#CDE4D4] opacity-40 blur-3xl animate-pulse-slow"></div>
+      <div className="pointer-events-none absolute bottom-0 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#94B49F] opacity-30 blur-3xl animate-pulse-slow"></div>
 
       {/* Inner container */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6">
         {/* Top row */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2">
+          {/* Left heading/content */}
+          <motion.div
+            className="space-y-2"
+            variants={leftVariants}
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#CDE4D4]/40 border border-[#CDE4D4]/70 text-xs font-medium tracking-wide">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#94B49F] text-white text-[10px]">
                 <FaUserMd />
@@ -34,10 +109,13 @@ const TopDoctors = () => {
             <p className="text-sm md:text-base text-[#2C3333]/70 max-w-md">
               Simply browse through our list of highly rated and trusted doctors and book your next appointment in a few clicks.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Stats + filter chips (UI only) */}
-          <div className="w-full md:w-72 space-y-3 text-xs md:text-sm">
+          {/* Right: stats + filter chips */}
+          <motion.div
+            className="w-full md:w-72 space-y-3 text-xs md:text-sm"
+            variants={rightVariants}
+          >
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[#2C3333]/60">Featured doctors</p>
@@ -62,22 +140,32 @@ const TopDoctors = () => {
                 By speciality
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Divider */}
-        <div className="mt-8 h-px bg-gradient-to-r from-transparent via-[#CDE4D4]/80 to-transparent" />
+        <motion.div
+          className="mt-8 h-px bg-gradient-to-r from-transparent via-[#CDE4D4]/80 to-transparent origin-center"
+          variants={dividerVariants}
+        />
 
         {/* Doctor Cards Grid */}
-        <div className="mt-8 w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6">
+        <motion.div
+          className="mt-8 w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6"
+          variants={cardsParent}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {topDoctors.map((item, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={cardVariant}
+              className="group relative cursor-pointer rounded-2xl transition-all duration-500 hover:-translate-y-1.5"
               onClick={() => {
                 navigate(`/appointment/${item._id}`)
                 scrollTo(0, 0)
               }}
-              className="group relative cursor-pointer rounded-2xl transition-all duration-500 hover:-translate-y-1.5"
             >
               {/* Outer glow */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[#CDE4D4] to-[#94B49F] rounded-2xl blur opacity-40 group-hover:opacity-80 transition-all"></div>
@@ -132,12 +220,18 @@ const TopDoctors = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA Button */}
-        <div className="mt-10 flex justify-center">
+        <motion.div
+          className="mt-10 flex justify-center"
+          variants={ctaVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <button
             onClick={() => {
               navigate('/doctors')
@@ -148,21 +242,10 @@ const TopDoctors = () => {
             <span className="absolute inset-0 bg-gradient-to-r from-[#94B49F] to-[#2C3333] blur-md opacity-70 group-hover:opacity-90 transition-all rounded-full"></span>
             <span className="relative z-10">View All Doctors</span>
           </button>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 export default TopDoctors
-
-/* Keep this globally if not already included */
-/*
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.05); }
-}
-.animate-pulse-slow {
-  animation: pulse-slow 6s infinite ease-in-out;
-}
-*/
