@@ -13,12 +13,20 @@ import Footer from './components/Footer'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsAndConditions from './pages/Terms&Conditions'
+import ScrollToTop from './ScrolltoTop'
+import HelpCenter from './pages/HelpCenter'
+import Faqs from './pages/Faqs'
+import CancellationPolicy from './pages/CancellationPolicy'
+import ReportIssue from './pages/ReportIssue'
 
 const App = () => {
   return (
     <div className='mx-4 sm:mx-[10%]'>
       <ToastContainer />
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/doctors' element={<Doctors />} />
@@ -30,6 +38,13 @@ const App = () => {
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/verify' element={<Verify />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/help-center" element={<HelpCenter />} />
+<Route path="/faqs" element={<Faqs />} />
+<Route path="/cancellation-policy" element={<CancellationPolicy />} />
+<Route path="/report-issue" element={<ReportIssue />} />
+
       </Routes>
       <Footer />
     </div>

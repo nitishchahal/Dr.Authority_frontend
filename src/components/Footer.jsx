@@ -1,5 +1,7 @@
 import React from 'react'
-import Logo from '../assets/logo.png'
+import Logo from '../assets/new_logo.png'
+import { Link } from 'react-router-dom'
+
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa'
 
 const Footer = () => {
@@ -44,24 +46,52 @@ const Footer = () => {
           <div>
             <p className="text-lg font-semibold text-[#1D3557] mb-4">Company</p>
             <ul className="space-y-3 text-sm text-[#457B9D]">
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Home</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">About Us</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Services</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Privacy Policy</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Terms & Conditions</li>
+              <Link to="/" className="hover:text-[#1D3557] cursor-pointer transition-all block">Home</Link>
+              <Link to="/doctors" className="hover:text-[#1D3557] cursor-pointer transition-all block">Doctors</Link>
+              <Link to="/about" className="hover:text-[#1D3557] cursor-pointer transition-all block">About Us</Link>
+              <Link to="/privacy-policy" className="hover:text-[#1D3557] cursor-pointer transition-all block">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-[#1D3557] cursor-pointer transition-all block">Terms & Conditions</Link>
             </ul>
           </div>
 
           {/* Support */}
-          <div>
-            <p className="text-lg font-semibold text-[#1D3557] mb-4">Support</p>
-            <ul className="space-y-3 text-sm text-[#457B9D]">
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Help Center</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">FAQs</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Cancellation Policy</li>
-              <li className="hover:text-[#1D3557] cursor-pointer transition-all">Report an Issue</li>
-            </ul>
-          </div>
+        <div>
+  <p className="text-lg font-semibold text-[#1D3557] mb-4">Support</p>
+  <ul className="space-y-3 text-sm text-[#457B9D]">
+    <li>
+      <Link
+        to="/help-center"
+        className="hover:text-[#1D3557] cursor-pointer transition-all"
+      >
+        Help Center
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/faqs"
+        className="hover:text-[#1D3557] cursor-pointer transition-all"
+      >
+        FAQs
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/cancellation-policy"
+        className="hover:text-[#1D3557] cursor-pointer transition-all"
+      >
+        Cancellation Policy
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/report-issue"
+        className="hover:text-[#1D3557] cursor-pointer transition-all"
+      >
+        Report an Issue
+      </Link>
+    </li>
+  </ul>
+</div>
 
           {/* Contact + Hours */}
           <div className="space-y-5">
