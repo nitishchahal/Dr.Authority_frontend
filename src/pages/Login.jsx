@@ -74,8 +74,8 @@ const Login = () => {
             </span>
             <span>
               {state === "Sign Up"
-                ? "Create your Prescripto account"
-                : "Login to your Prescripto account"}
+                ? "Create your Dr.Authority account"
+                : "Login to your Dr.Authority account"}
             </span>
           </div>
         </div>

@@ -24,7 +24,7 @@ const About = () => {
             ABOUT <span className="text-[#457B9D] font-bold">US</span>
           </h1>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-[#1D3557]/75">
-            Prescripto connects people with trusted doctors and clinics through an easy,
+            Dr.Authority connects people with trusted doctors and clinics through an easy,
             secure, and patient-first digital platform.
           </p>
         </div>
@@ -35,7 +35,7 @@ const About = () => {
           <div className="flex-1 space-y-5 text-sm sm:text-[15px] text-[#1D3557]/80 leading-relaxed">
             <p>
               Welcome to{' '}
-              <b className="text-[#457B9D]">Prescripto</b>, your trusted partner in managing
+              <b className="text-[#457B9D]">Dr.Authority</b>, your trusted partner in managing
               your healthcare needs conveniently and efficiently. We aim to simplify how
               individuals connect with medical professionals.
             </p>

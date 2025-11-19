@@ -69,7 +69,7 @@ const Footer = () => {
               <p className="text-lg font-semibold text-[#1D3557] mb-3">Contact</p>
               <ul className="space-y-2 text-sm text-[#457B9D]">
                 <li>+1 212-456-7890</li>
-                <li>support@prescripto.com</li>
+                <li>support@Dr_Authority.com</li>
                 <li className="text-[#1D3557]/70 text-xs">
                   24/7 online appointment support
                 </li>
@@ -101,7 +101,7 @@ const Footer = () => {
 
         {/* Bottom bar */}
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#1D3557]/80">
-          <p>© 2024 Prescripto.com — All Rights Reserved.</p>
+          <p>© 2024 Dr.Authority.com — All Rights Reserved.</p>
           <div className="flex items-center gap-3">
             <p className="hover:text-[#457B9D] cursor-pointer transition-colors">Cookies</p>
             <span className="h-3 w-[1px] bg-[#1D3557]/30" />
