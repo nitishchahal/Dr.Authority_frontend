@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import { assets } from '../assets/assets'
 import { FaUserMd, FaCalendarCheck, FaShieldAlt, FaVideo } from 'react-icons/fa'
 import { motion } from 'framer-motion'
+import { AppContext } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom'
+
+const smoothScrollTo = (x, y) => {
+  window.scrollTo({ top: y, left: x, behavior: 'smooth' })
+}
 
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -69,6 +75,20 @@ const statItem = {
 }
 
 const Header = () => {
+  const { doctors } = useContext(AppContext)
+  const navigate = useNavigate()
+
+  // Pick a random featured doctor from database (prefer available one)
+  const featuredDoctor = useMemo(() => {
+    if (!doctors || doctors.length === 0) return null
+
+    const available = doctors.filter((d) => d.available)
+    const pool = available.length > 0 ? available : doctors
+
+    const randomIndex = Math.floor(Math.random() * pool.length)
+    return pool[randomIndex]
+  }, [doctors])
+
   return (
     <motion.div
       className="relative bg-[#F1FAEE] text-[#1D3557] rounded-3xl 
@@ -80,7 +100,7 @@ const Header = () => {
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}  // triggers on scroll into view
+      viewport={{ once: true, amount: 0.3 }}
     >
       {/* Background accents */}
       <div className="pointer-events-none absolute inset-0">
@@ -196,7 +216,13 @@ const Header = () => {
                 Book Appointment
                 <img className="w-3" src={assets.arrow_icon} alt="arrow" />
               </a>
-              <button className="px-6 py-3 rounded-full text-xs sm:text-sm font-medium border border-[#A8DADC] bg-white/70 hover:bg-[#A8DADC]/20 transition-all">
+              <button
+                onClick={() => {
+                  navigate('/doctors')
+                  smoothScrollTo(0, 0)
+                }}
+                className="px-6 py-3 rounded-full text-xs sm:text-sm font-medium border border-[#A8DADC] bg-white/70 hover:bg-[#A8DADC]/20 transition-all"
+              >
                 Explore Doctors
               </button>
             </div>
@@ -226,33 +252,59 @@ const Header = () => {
             {/* Gradient border wrapper */}
             <div className="absolute -inset-0.5 bg-gradient-to-br from-[#A8DADC] via-[#457B9D] to-[#1D3557] rounded-3xl opacity-40 blur-sm" />
             <div className="relative rounded-3xl bg-white/90 backdrop-blur-sm p-4 sm:p-5 md:p-6 shadow-xl flex flex-col gap-4 border border-[#A8DADC]/40">
-              {/* Doctor row */}
+              {/* Doctor row (dynamic) */}
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-2xl overflow-hidden border border-[#A8DADC]/60 bg-[#F1FAEE] flex items-center justify-center">
-                    <img
-                      src={assets.header_img}
-                      alt="doctor"
-                      className="h-full w-full object-cover"
-                    />
+                    {featuredDoctor ? (
+                      <img
+                        src={featuredDoctor.image}
+                        alt={featuredDoctor.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-7 w-7 rounded-full bg-[#A8DADC]/40 animate-pulse" />
+                    )}
                   </div>
                   <div className="text-xs sm:text-sm">
-                    <p className="font-semibold flex items-center gap-1">
-                      Dr. Ananya Verma
-                      <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
-                    </p>
-                    <p className="text-[10px] sm:text-[11px] opacity-70">
-                      Hepatologist · 8+ yrs exp.
-                    </p>
+                    {featuredDoctor ? (
+                      <>
+                        <p className="font-semibold flex items-center gap-1">
+                          {featuredDoctor.name}
+                          {featuredDoctor.available && (
+                            <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+                          )}
+                        </p>
+                        <p className="text-[10px] sm:text-[11px] opacity-70">
+                          {featuredDoctor.speciality}
+                          {featuredDoctor.experience && (
+                            <> · {featuredDoctor.experience}+ yrs exp.</>
+                          )}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-semibold">Loading doctor...</p>
+                        <p className="text-[10px] sm:text-[11px] opacity-60">
+                          Please wait
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="text-right text-[10px] sm:text-xs">
                   <p className="font-semibold">Next available</p>
-                  <p className="opacity-70">Today · 4:30 PM</p>
+                  <p className="opacity-70">
+                    {featuredDoctor
+                      ? featuredDoctor.available
+                        ? 'Slots open today'
+                        : 'Check schedule'
+                      : 'Fetching...'}
+                  </p>
                 </div>
               </div>
 
-              {/* Schedule preview */}
+              {/* Schedule preview (static for now) */}
               <div className="rounded-2xl bg-[#F1FAEE] border border-[#A8DADC]/50 p-3 text-[11px] sm:text-xs space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
@@ -320,7 +372,15 @@ const Header = () => {
                 </motion.div>
               </motion.div>
 
-              <button className="mt-1 w-full text-[11px] sm:text-xs md:text-sm font-medium rounded-full border border-[#457B9D] py-2 hover:bg-[#457B9D] hover:text-[#F1FAEE] transition-colors">
+              {/* View profile button */}
+              <button
+                onClick={() => {
+                  if (!featuredDoctor) return
+                  navigate(`/appointment/${featuredDoctor._id}`)
+                  smoothScrollTo(0, 0)
+                }}
+                className="mt-1 w-full text-[11px] sm:text-xs md:text-sm font-medium rounded-full border border-[#457B9D] py-2 hover:bg-[#457B9D] hover:text-[#F1FAEE] transition-colors"
+              >
                 View doctor profile &amp; reviews
               </button>
             </div>

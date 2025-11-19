@@ -98,7 +98,7 @@ const Footer = () => {
             <div>
               <p className="text-lg font-semibold text-[#1D3557] mb-3">Contact</p>
               <ul className="space-y-2 text-sm text-[#457B9D]">
-                <li>+1 212-456-7890</li>
+                <li>+91 600-655-6223</li>
                 <li>support@Dr_Authority.com</li>
                 <li className="text-[#1D3557]/70 text-xs">
                   24/7 online appointment support

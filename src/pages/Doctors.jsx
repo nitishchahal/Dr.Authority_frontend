@@ -2,19 +2,95 @@ import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "../context/AppContext"
 import { useNavigate, useParams } from "react-router-dom"
 import { FaUserMd, FaFilter, FaStar } from "react-icons/fa"
+import { motion } from "framer-motion"
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+}
+
+const headerLeftVariants = {
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+}
+
+const headerRightVariants = {
+  hidden: { opacity: 0, x: 30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut", delay: 0.1 },
+  },
+}
+
+const filterBarVariants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: "easeOut", delay: 0.1 },
+  },
+}
+
+const cardsParent = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
+    },
+  },
+}
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+}
+
+const emptyStateVariant = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut", delay: 0.15 },
+  },
+}
 
 const Doctors = () => {
   const { speciality } = useParams()
   const [filterDoc, setFilterDoc] = useState([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const { doctors } = useContext(AppContext)
 
   useEffect(() => {
-    if (speciality) {
-      setFilterDoc(doctors.filter((doc) => doc.speciality === speciality))
-    } else {
-      setFilterDoc(doctors)
+    // If doctors not loaded yet, keep loading
+    if (!doctors || doctors.length === 0) {
+      setFilterDoc([])
+      setLoading(true)
+      return
     }
+
+    setLoading(true)
+
+    const filtered = speciality
+      ? doctors.filter((doc) => doc.speciality === speciality)
+      : doctors
+
+    setFilterDoc(filtered)
+    setLoading(false)
   }, [doctors, speciality])
 
   const specialities = [
@@ -27,7 +103,13 @@ const Doctors = () => {
   ]
 
   return (
-    <div className="relative mt-20 mx-4 md:mx-8 bg-[#F1FAEE] rounded-3xl px-4 sm:px-8 lg:px-12 py-10 md:py-12 shadow-md border border-[#A8DADC]/40 overflow-hidden">
+    <motion.div
+      className="relative mt-20 mx-4 md:mx-8 bg-[#F1FAEE] rounded-3xl px-4 sm:px-8 lg:px-12 py-10 md:py-12 shadow-md border border-[#A8DADC]/40 overflow-hidden"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.25 }}
+    >
       {/* Background accents */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 -left-20 w-64 h-64 bg-[#A8DADC] opacity-30 rounded-full blur-3xl" />
@@ -37,7 +119,10 @@ const Doctors = () => {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col gap-4 mb-10 md:mb-12 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-3">
+          <motion.div
+            className="space-y-3"
+            variants={headerLeftVariants}
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A8DADC]/25 border border-[#A8DADC]/70 text-[11px] text-[#1D3557]">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#457B9D] text-[#F1FAEE] text-[10px]">
                 <FaUserMd />
@@ -54,14 +139,17 @@ const Doctors = () => {
                 providing trusted medical care and excellence in patient service.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Small stats card */}
-          <div className="w-full md:w-64 rounded-2xl bg-white/90 shadow-sm border border-[#A8DADC]/60 px-4 py-3 text-xs sm:text-sm text-[#1D3557]/80 backdrop-blur-sm">
+          <motion.div
+            className="w-full md:w-64 rounded-2xl bg-white/90 shadow-sm border border-[#A8DADC]/60 px-4 py-3 text-xs sm:text-sm text-[#1D3557]/80 backdrop-blur-sm"
+            variants={headerRightVariants}
+          >
             <div className="flex items-center justify-between mb-2">
               <span>Doctors listed</span>
               <span className="font-semibold text-[#1D3557]">
-                {filterDoc.length || doctors.length}
+                {loading ? "--" : filterDoc.length || doctors.length}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -70,11 +158,14 @@ const Doctors = () => {
                 {specialities.length}+
               </span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Filter Bar */}
-        <div className="mb-10">
+        <motion.div
+          className="mb-10"
+          variants={filterBarVariants}
+        >
           <div className="flex items-center justify-between gap-3 mb-3">
             <div className="flex items-center gap-2 text-xs sm:text-sm text-[#1D3557]/80">
               <FaFilter className="text-[#457B9D]" />
@@ -113,81 +204,100 @@ const Doctors = () => {
               )
             })}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Doctor Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-10">
-          {filterDoc.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                navigate(`/appointment/${item._id}`)
-                scrollTo(0, 0)
-              }}
-              className="bg-white/95 border border-[#A8DADC]/60 rounded-2xl overflow-hidden shadow-[0_2px_6px_rgba(15,23,42,0.1)] hover:shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all duration-300 cursor-pointer group flex flex-col backdrop-blur-sm"
-            >
-              {/* Doctor Image */}
-              <div className="relative flex justify-center items-center h-44 bg-gradient-to-t from-[#A8DADC]/40 to-[#F1FAEE]">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md group-hover:scale-[1.03] transition-transform duration-300"
-                />
-
-                {/* Availability badge */}
-                <div
-                  className={`absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-medium ${
-                    item.available
-                      ? "bg-[#A8DADC]/25 text-[#1D3557]"
-                      : "bg-[#F1FAEE] text-[#1D3557]/60"
-                  }`}
-                >
-                  {item.available ? "Available" : "Not Available"}
-                </div>
-              </div>
-
-              {/* Doctor Info */}
-              <div className="px-5 pb-5 pt-3 text-center flex flex-col flex-grow">
-                <h3 className="text-[#1D3557] text-base sm:text-lg font-semibold mt-1">
-                  {item.name}
-                </h3>
-                <p className="text-[#1D3557]/70 text-xs sm:text-sm mb-1">
-                  {item.speciality}
-                </p>
-
-                {/* Rating + label row */}
-                <div className="flex items-center justify-center gap-2 text-[11px] text-[#1D3557]/70 mb-3">
-                  <span className="inline-flex items-center gap-1">
-                    <FaStar className="text-[#FACC15] text-[10px]" />
-                    4.9
-                  </span>
-                  <span className="h-1 w-1 rounded-full bg-[#A8DADC]" />
-                  <span>Trusted by patients</span>
-                </div>
-
-                {/* Tag chip */}
-                <div className="mb-4">
-                  <span className="inline-block px-3 py-1 text-[11px] rounded-full bg-[#F1FAEE] text-[#1D3557]/80 border border-[#A8DADC]/60">
-                    Online & in-clinic consults
-                  </span>
-                </div>
-
-                <button className="mt-auto w-full text-xs sm:text-sm font-medium text-[#F1FAEE] bg-gradient-to-r from-[#457B9D] to-[#1D3557] border border-[#457B9D] py-2.5 rounded-lg hover:shadow-md hover:translate-y-[1px] transition-all duration-300">
-                  View Profile & Book
-                </button>
-              </div>
+        {/* Loading state */}
+        {loading ? (
+          <div className="flex justify-center items-center py-16">
+            <div className="flex flex-col items-center gap-3 text-[#1D3557]/70 text-sm">
+              <div className="h-10 w-10 rounded-full border-4 border-[#A8DADC] border-t-[#457B9D] animate-spin" />
+              <p>Loading doctors...</p>
             </div>
-          ))}
+          </div>
+        ) : (
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-10"
+            variants={cardsParent}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {filterDoc.map((item, index) => (
+              <motion.div
+                key={index}
+                variants={cardVariant}
+                onClick={() => {
+                  navigate(`/appointment/${item._id}`)
+                  scrollTo(0, 0)
+                }}
+                className="bg-white/95 border border-[#A8DADC]/60 rounded-2xl overflow-hidden shadow-[0_2px_6px_rgba(15,23,42,0.1)] hover:shadow-[0_8px_20px_rgba(15,23,42,0.18)] transition-all duration-300 cursor-pointer group flex flex-col backdrop-blur-sm"
+              >
+                {/* Doctor Image */}
+                <div className="relative flex justify-center items-center h-44 bg-gradient-to-t from-[#A8DADC]/40 to-[#F1FAEE]">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md group-hover:scale-[1.03] transition-transform duration-300"
+                  />
 
-          {/* No doctors case */}
-          {filterDoc.length === 0 && (
-            <p className="col-span-full text-center text-sm text-[#1D3557]/70">
-              No doctors found for this speciality yet.
-            </p>
-          )}
-        </div>
+                  {/* Availability badge */}
+                  <div
+                    className={`absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-medium ${
+                      item.available
+                        ? "bg-[#A8DADC]/25 text-[#1D3557]"
+                        : "bg-[#F1FAEE] text-[#1D3557]/60"
+                    }`}
+                  >
+                    {item.available ? "Available" : "Not Available"}
+                  </div>
+                </div>
+
+                {/* Doctor Info */}
+                <div className="px-5 pb-5 pt-3 text-center flex flex-col flex-grow">
+                  <h3 className="text-[#1D3557] text-base sm:text-lg font-semibold mt-1">
+                    {item.name}
+                  </h3>
+                  <p className="text-[#1D3557]/70 text-xs sm:text-sm mb-1">
+                    {item.speciality}
+                  </p>
+
+                  {/* Rating + label row */}
+                  <div className="flex items-center justify-center gap-2 text-[11px] text-[#1D3557]/70 mb-3">
+                    <span className="inline-flex items-center gap-1">
+                      <FaStar className="text-[#FACC15] text-[10px]" />
+                      4.9
+                    </span>
+                    <span className="h-1 w-1 rounded-full bg-[#A8DADC]" />
+                    <span>Trusted by patients</span>
+                  </div>
+
+                  {/* Tag chip */}
+                  <div className="mb-4">
+                    <span className="inline-block px-3 py-1 text-[11px] rounded-full bg-[#F1FAEE] text-[#1D3557]/80 border border-[#A8DADC]/60">
+                      Online & in-clinic consults
+                    </span>
+                  </div>
+
+                  <button className="mt-auto w-full text-xs sm:text-sm font-medium text-[#F1FAEE] bg-gradient-to-r from-[#457B9D] to-[#1D3557] border border-[#457B9D] py-2.5 rounded-lg hover:shadow-md hover:translate-y-[1px] transition-all duration-300">
+                    View Profile & Book
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* No doctors case */}
+            {filterDoc.length === 0 && (
+              <motion.p
+                className="col-span-full text-center text-sm text-[#1D3557]/70"
+                variants={emptyStateVariant}
+              >
+                No doctors found for this speciality yet.
+              </motion.p>
+            )}
+          </motion.div>
+        )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
