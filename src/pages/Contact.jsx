@@ -45,9 +45,9 @@ const Contact = () => {
                 <FaMapMarkerAlt /> OUR OFFICE
               </p>
               <p className="text-[#1D3557]/70 text-sm">
-                54709 Willms Station
+                Rajbagh , near Batra Cinema
                 <br />
-                Suite 350, Washington, USA
+                Kathua, J&K
               </p>
             </div>
 
@@ -56,13 +56,13 @@ const Contact = () => {
                 <p className="font-semibold text-[#457B9D] flex items-center gap-2">
                   <FaPhoneAlt /> Call us
                 </p>
-                <p className="text-[#1D3557]/70 text-sm">(415) 555-0132</p>
+                <p className="text-[#1D3557]/70 text-sm">(600) 655-223</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="font-semibold text-[#457B9D] flex items-center gap-2">
                   <FaEnvelope /> Email
                 </p>
-                <p className="text-[#1D3557]/70 text-sm">greatstackdev@gmail.com</p>
+                <p className="text-[#1D3557]/70 text-sm">dr.authouity@gmail.com</p>
               </div>
             </div>
 
@@ -79,7 +79,7 @@ const Contact = () => {
 
             <div className="pt-2">
               <p className="font-semibold text-lg text-[#457B9D] flex items-center gap-2 mb-1">
-                <FaBriefcase /> CAREERS AT PRESCRIPTO
+                <FaBriefcase /> CAREERS AT Dr.Authority
               </p>
               <p className="text-[#1D3557]/70 text-sm mb-3">
                 Learn more about opportunities to join our growing team and help build the
@@ -152,7 +152,7 @@ const Contact = () => {
               <span>Find us on the map</span>
             </div>
             <span className="hidden sm:inline text-[#457B9D]">
-              54709 Willms Station, Suite 350, Washington, USA
+              Rajbagh , near Batra Cinema, Kathua, J&K
             </span>
           </div>
 

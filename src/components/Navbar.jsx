@@ -218,7 +218,7 @@ const Navbar = () => {
 
         {/* Mobile auth actions */}
         {token && userData ? (
-          <div className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col gap-2 text-sm">
             <button
               onClick={() => {
                 setShowMenu(false)
