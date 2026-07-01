@@ -91,11 +91,11 @@ const Header = () => {
 
   return (
     <motion.div
-      className="relative bg-[#F1FAEE] text-[#1D3557] rounded-3xl 
-      px-4 sm:px-6 md:px-10 lg:px-16 
-      py-10 md:py-14 pt-24
-      my-10 sm:my-14 md:my-20 
-      mx-3 sm:mx-6 md:mx-8 lg:mx-14 
+      className="relative bg-[#F1FAEE] text-[#1D3557] rounded-2xl sm:rounded-3xl 
+      px-4 sm:px-6 md:px-8 lg:px-16 
+      py-6 sm:py-10 md:py-12 lg:py-14
+      my-4 sm:my-6 md:my-10 lg:my-16 
+      mx-2 sm:mx-4 md:mx-6 lg:mx-14 
       overflow-hidden border border-[#A8DADC]/40 shadow-md"
       variants={containerVariants}
       initial="hidden"
@@ -110,10 +110,10 @@ const Header = () => {
       </div>
 
       {/* Content grid */}
-      <div className="relative z-10 grid gap-10 lg:grid-cols-12 items-center">
+      <div className="relative z-10 grid gap-6 sm:gap-8 lg:gap-10 lg:grid-cols-12 items-center">
         {/* Left side */}
         <motion.section
-          className="lg:col-span-7 flex flex-col gap-6"
+          className="lg:col-span-7 flex flex-col gap-5 sm:gap-6"
           variants={leftVariants}
         >
           {/* Top badge */}
@@ -132,13 +132,13 @@ const Header = () => {
 
           {/* Heading */}
           <motion.div
-            className="space-y-3"
+            className="space-y-2 sm:space-y-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 }}
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+            <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
               Your Health,
               <span className="block">Our Responsibility.</span>
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#457B9D] to-[#A8DADC]">
@@ -154,7 +154,7 @@ const Header = () => {
 
           {/* Feature chips */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs md:text-sm"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-xs md:text-sm"
             variants={chipsVariants}
             initial="hidden"
             whileInView="visible"
@@ -202,7 +202,7 @@ const Header = () => {
 
           {/* CTA + profiles */}
           <motion.div
-            className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2"
+            className="flex flex-col sm:flex-row sm:items-center gap-4 pt-1"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
@@ -211,7 +211,7 @@ const Header = () => {
             <div className="flex flex-col xs:flex-row gap-3">
               <a
                 href="#speciality"
-                className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-full text-xs sm:text-sm font-semibold text-[#F1FAEE] bg-gradient-to-r from-[#457B9D] to-[#1D3557] hover:shadow-xl hover:translate-y-[1px] transition-all duration-300 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-[#F1FAEE] bg-gradient-to-r from-[#457B9D] to-[#1D3557] hover:shadow-xl hover:translate-y-[1px] transition-all duration-300 active:scale-95"
               >
                 Book Appointment
                 <img className="w-3" src={assets.arrow_icon} alt="arrow" />
@@ -221,7 +221,7 @@ const Header = () => {
                   navigate('/doctors')
                   smoothScrollTo(0, 0)
                 }}
-                className="px-6 py-3 rounded-full text-xs sm:text-sm font-medium border border-[#A8DADC] bg-white/70 hover:bg-[#A8DADC]/20 transition-all"
+                className="px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-medium border border-[#A8DADC] bg-white/70 hover:bg-[#A8DADC]/20 transition-all"
               >
                 Explore Doctors
               </button>
