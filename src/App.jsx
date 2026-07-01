@@ -20,6 +20,7 @@ import HelpCenter from './pages/HelpCenter'
 import Faqs from './pages/Faqs'
 import CancellationPolicy from './pages/CancellationPolicy'
 import ReportIssue from './pages/ReportIssue'
+import Payment from "./pages/Payment";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
 <Route path="/faqs" element={<Faqs />} />
 <Route path="/cancellation-policy" element={<CancellationPolicy />} />
 <Route path="/report-issue" element={<ReportIssue />} />
+<Route path="/payment" element={<Payment />} />
 
       </Routes>
       <Footer />

@@ -93,19 +93,26 @@ const Appointment = () => {
     let year = date.getFullYear()
     const slotDate = day + '_' + month + '_' + year
 
-    try {
-      const { data } = await axios.post(
-        backendUrl + '/api/user/book-appointment',
-        { docId, slotDate, slotTime },
-        { headers: { token } }
-      )
-      if (data.success) {
-        toast.success(data.message)
-        getDoctosData()
-        navigate('/my-appointments')
-      } else {
-        toast.error(data.message)
-      }
+   try {
+  const { data } = await axios.post(
+    backendUrl + "/api/payment/create-payment-intent",
+    {
+      amount: docInfo.fees,
+    },
+    {
+      headers: { token },
+    }
+  );
+         getDoctosData()
+     navigate("/payment", {
+  state: {
+    clientSecret: data.clientSecret,
+    docId,
+    slotDate,
+    slotTime,
+    doctor: docInfo,
+  },
+});
     } catch (error) {
       console.log(error)
       toast.error(error.message)
